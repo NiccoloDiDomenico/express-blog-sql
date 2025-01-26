@@ -1,34 +1,43 @@
 // Import
-// dati
+const connection = require("../data/blog_db");
 
 // Functions
 // index
-const index = (req, res) => {
+function index(req, res) {
+    // preparo la query
+    const sql = 'SELECT * FROM posts'
 
+    // eseguo la query
+    connection.query(sql, (err, result) => {
+        if (err) return res.status(500), json({
+            error: 'Database query failed'
+        })
+        res.json(result);
+    })
 };
 
 // show
-const show = (req, res) => {
+function show(req, res) {
 
 };
 
 // store
-const store = (req, res) => {
+function store(req, res) {
 
 };
 
 // updute
-const updute = (req, res) => {
+function updute(req, res) {
 
 };
 
 // modify
-const modify = (req, res) => {
+function modify(req, res) {
 
 };
 
 // destroy
-const destroy = (req, res) => {
+function destroy(req, res) {
 
 };
 
