@@ -38,9 +38,20 @@ function modify(req, res) {
 
 // destroy
 function destroy(req, res) {
+    // recuperiamo l'id dall'URL
+    const { id } = req.params;
 
+    // preparo la query
+    const sql = 'DELETE FROM posts WHERE id = ?'
+
+    // eseguo la query
+    connection.query(sql, [id], (err) => {
+        if (err) return res.status(500).json({
+            error: 'Failed to delete post'
+        });
+        res.sendStatus(204);
+    });
 };
-
 
 // Export
 module.exports = {

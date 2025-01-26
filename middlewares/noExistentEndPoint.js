@@ -1,5 +1,5 @@
 // Import
-// dati 
+const connection = require("../data/blog_db");
 
 // Functions
 const noExistentEndPoint = (req, res, next) => {
