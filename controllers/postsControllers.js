@@ -22,7 +22,15 @@ function show(req, res) {
     const id = req.params.id;
 
     // preparo la query
-    const sql = "SELECT * FROM posts WHERE id = ?"
+    const sql = `
+        SELECT posts.*, tags.label 
+        FROM posts
+        JOIN post_tag
+        ON posts.id = post_tag.post_id
+        JOIN tags
+        ON post_tag.tag_id = tags.id
+        WHERE posts.id = ?
+    `
 
     // eseguo la query
     connection.query(sql, [id], (err, postsResults) => {
@@ -58,9 +66,11 @@ function destroy(req, res) {
 
     // eseguo la query
     connection.query(sql, [id], (err) => {
+        // gestione errore
         if (err) return res.status(500).json({
             error: 'Failed to delete post'
         });
+        // gestione risposta
         res.sendStatus(204);
     });
 };
