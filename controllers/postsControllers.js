@@ -8,11 +8,11 @@ function index(req, res) {
     const sql = 'SELECT * FROM posts'
 
     // eseguo la query
-    connection.query(sql, (err, results) => {
-        if (err) return res.status(500), json({
-            error: 'Database query failed'
-        })
-        res.json(results);
+    connection.query(sql, (err, posts) => {
+        // gestione errore
+        if (err) return res.status(500).json({ error: 'Database query failed' })
+        // gestione risposta
+        res.json(posts);
     })
 };
 
@@ -22,17 +22,14 @@ function show(req, res) {
     const id = req.params.id;
 
     // preparo la query
-    const sql = 'SELECT * FROM posts WHERE id = ?'
+    const sql = "SELECT * FROM posts WHERE id = ?"
 
     // eseguo la query
-    connection.query(sql, [id], (err, results) => {
-        if (err) return res.status(500).json({
-            error: 'Database query failed'
-        });
-        if (results.length === 0) return res.status(404).json({
-            error: 'Pizza not found'
-        });
-        res.json(results[0]);
+    connection.query(sql, [id], (err, postsResults) => {
+        // gestione errore
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        if (postsResults.length === 0) return res.status(404).json({ error: 'Item not found' });
+        res.json(postsResults[0]);
     });
 };
 
